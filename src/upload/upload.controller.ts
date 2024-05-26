@@ -10,15 +10,15 @@ export class UploadController {
 
     @Post('file')
     @UseInterceptors(FileInterceptor('file', {
-        storage: diskStorage({
-            destination: './uploads', // save file in the uploads folder
-            filename: (req, file, callback) => {
-                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                const ext = extname(file.originalname);
-                const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
-                callback(null, filename);
-            },
-        }),
+        // storage: diskStorage({
+        //     destination: './uploads', // save file in the uploads folder
+        //     filename: (req, file, callback) => {
+        //         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        //         const ext = extname(file.originalname);
+        //         const filename = `${file.fieldname}-${uniqueSuffix}${ext}`;
+        //         callback(null, filename);
+        //     },
+        // }),
         fileFilter: (req, file, callback) => {
             if (!file.originalname.match(/\.(xlsx|xls|docx|doc)$/)) {
                 return callback(new Error('Only excel and word files are allowed!'), false);
@@ -27,8 +27,9 @@ export class UploadController {
         },
     }))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
-        const outputPdfPath = `./uploads/${file.filename.split('.')[0]}.pdf`;
-        await this.uploadService.transformExcelToPdf(file.path, outputPdfPath);
-        return { message: 'File converted successfully', pdfPath: outputPdfPath };
+        // const outputPdfPath = `./uploads/${file.filename.split('.')[0]}.pdf`;
+        // await this.uploadService.transformExcelToPdf(file.path, outputPdfPath);
+        // return { message: 'File converted successfully', pdfPath: outputPdfPath };
+        return "upload file success!";
     }
 }
